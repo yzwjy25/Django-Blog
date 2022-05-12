@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}
+    主页
+{% endblock %}
+{% block blog-title %}
+    <div class="blog-header">
+        <h1 class="blog-title">富贵平安。</h1>
+        <p class="lead blog-description">个人博客，学习的记录。</p>
+    </div>
+    <hr>
+{% endblock %}
+{% block content %}
+    <div class="col-md-9 blog-main">
+        {% for article in articles %}
+            <div class="blog-post">
+                <h2 class="blog-post-title"><a href="{% url "blogcontent" article.id %}">{{ article.title }}</a></h2>
+                <p style="font-size: 14px;">{{ article.content_sample }}</p>
+                <p class="blog-post-meta" style="float: right;font-size: 14px;">{{ article.publish_time }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

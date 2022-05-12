@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-theme.css" rel="stylesheet">
+    <script src="/static/js/jquery3.6.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="/static/css/blog.css" rel="stylesheet">
+    {% block extrastatic %}
+    {% endblock %}
+    <style>
+        .fixed-bottom {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="blog-masthead">
+    <div class="container">
+        <nav class="blog-nav">
+            <a class="blog-nav-item active" href="/">主页</a>
+            <a class="blog-nav-item" href="#">个人网盘</a>
+            {#            <a class="blog-nav-item" href="#">Press</a>#}
+            {#            <a class="blog-nav-item" href="#">New hires</a>#}
+            <a class="blog-nav-item" href="#">关于</a>
+        </nav>
+    </div>
+</div>
+{% block sidebar %}
+{% endblock %}
+<div class="container">
+    {% block  blog-title %}
+    {% endblock %}
+
+    <div class="row">
+        {#        博客内容#}
+
+        {% block content %}
+        {% endblock %}
+
+        {#        右侧菜单#}
+        <div class="col-sm-2 col-sm-offset-1 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <h4>搜索</h4>
+                <input type="email" class="form-control" id="exampleInputEmail3" placeholder="搜索内容">
+            </div>
+            <div class="sidebar-module">
+                <div class="sidebar-module">
+                    <h4>阅读排行榜</h4>
+                    <ol class="list-unstyled">
+                        {#                        <li><a href="#">GitHub</a></li>#}
+                    </ol>
+                </div>
+                <h4>随笔分类</h4>
+                <ol class="list-unstyled">
+                    {#                    <li><a href="#">March 2014</a></li>#}
+                </ol>
+            </div>
+            <div class="sidebar-module">
+                <h4>随笔档案</h4>
+                <ol class="list-unstyled">
+                    {#                    <li><a href="#">GitHub</a></li>#}
+                </ol>
+            </div>
+            <div class="sidebar-module">
+                <h4>其他</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+</div>
+<footer class="blog-footer">
+    <p>Copyright © 2022 富贵平安。</a>.
+    </p>
+    <p>
+        <a href="#">返回顶部</a>
+    </p>
+</footer>
+
+<script>
+    $(function () {
+        function footerPosition() {
+            $(".blog-footer").removeClass("fixed-bottom");
+            var contentHeight = document.body.scrollHeight,//网页正文全文高度
+                winHeight = window.innerHeight;//可视窗口高度，不包括浏览器顶部工具栏
+            console.log(contentHeight, winHeight);
+            if (!(contentHeight > winHeight)) {
+                //当网页正文高度小于可视窗口高度时，为footer添加类fixed-bottom
+                $(".blog-footer").addClass("fixed-bottom");
+            } else {
+                $(".blog-footer").removeClass("fixed-bottom");
+            }
+        }
+
+        footerPosition();
+        $(window).resize(footerPosition);
+    });
+
+</script>
+{% block js %}
+{% endblock %}
+</body>
+</html>
