@@ -1,3 +1,4 @@
+{% load sidebar %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,23 +54,25 @@
                     <h4>阅读排行榜</h4>
                     <ol class="list-unstyled">
                         {#                        <li><a href="#">GitHub</a></li>#}
+                        {% read_rank %}
                     </ol>
                 </div>
                 <h4>随笔分类</h4>
                 <ol class="list-unstyled">
-                    {#                    <li><a href="#">March 2014</a></li>#}
+                    {% categories %}
                 </ol>
             </div>
             <div class="sidebar-module">
                 <h4>随笔档案</h4>
                 <ol class="list-unstyled">
                     {#                    <li><a href="#">GitHub</a></li>#}
+                    {% yearmonth %}
                 </ol>
             </div>
             <div class="sidebar-module">
                 <h4>其他</h4>
                 <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
+                    <li><a target="_blank" href="https://github.com/yzwjy25">GitHub</a></li>
                 </ol>
             </div>
         </div>
@@ -77,8 +80,7 @@
 
 </div>
 <footer class="blog-footer">
-    <p>Copyright © 2022 富贵平安。</a>.
-    </p>
+    <p>Copyright © 2022 富贵平安。</p>
     <p>
         <a href="#">返回顶部</a>
     </p>

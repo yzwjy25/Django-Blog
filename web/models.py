@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Blog(models.Model):
     title = models.CharField(max_length=20, verbose_name="标题")
@@ -10,11 +11,16 @@ class Blog(models.Model):
 
     category = models.ForeignKey(to="Category", verbose_name='所属类别', on_delete=models.CASCADE, default=1)
 
+    read_count = models.IntegerField(verbose_name='阅读数', default=0)
+
     publish_time = models.DateTimeField(verbose_name="发布时间")
+
     def __str__(self):
         return self.title
 
+
 class Category(models.Model):
     title = models.CharField(max_length=10, verbose_name="类别")
+
     def __str__(self):
         return self.title
