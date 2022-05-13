@@ -31,7 +31,7 @@ def yearmonth():
     html = ""
 
     for item in blogs:
-        html += "<li><a href=\"?year={}&month={}\">{}({})</a></li>".format(item['month'].year, item['month'].month,item['month'].strftime('%Y-%m-%d'), item['num'])
+        html += "<li><a href=\"?year={}&month={}\">{}({})</a></li>".format(item['month'].year, item['month'].month,item['month'].strftime('%Y-%m'), item['num'])
     # print(html)
     return mark_safe(html)
 

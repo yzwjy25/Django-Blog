@@ -11,7 +11,11 @@ class Blog(models.Model):
 
     category = models.ForeignKey(to="Category", verbose_name='所属类别', on_delete=models.CASCADE, default=1)
 
-    read_count = models.IntegerField(verbose_name='阅读数', default=0)
+    read_count = models.PositiveIntegerField(verbose_name='阅读数',default=0)
+
+    def increase_views(self):
+        self.read_count += 1
+        self.save(update_fields=['read_count'])
 
     publish_time = models.DateTimeField(verbose_name="发布时间")
 

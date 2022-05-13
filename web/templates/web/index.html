@@ -10,14 +10,27 @@
     <hr>
 {% endblock %}
 {% block content %}
-    <div class="col-md-9 blog-main">
+    <div class="col-sm-9 blog-main">
         {% for article in articles %}
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="{% url "blogcontent" article.id %}">{{ article.title }}</a></h2>
-                <p style="font-size: 14px;">{{ article.content_sample }}</p>
-                <p class="blog-post-meta" style="float: right;font-size: 14px;">{{ article.publish_time }}</p>
+            <div class="box" style="padding:0 10px;">
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><a href="{% url "blogcontent" article.id %}">{{ article.title }}</a>
+                    </h2>
+                    <p style="font-size: 14px;">{{ article.content_sample }}</p>
+                    <p class="blog-post-meta" style="float: right;font-size: 14px;">{{ article.publish_time }}</p>
+                </div>
+                <hr>
             </div>
-            <hr>
         {% endfor %}
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(".blog-main").on('mouseover', '.box', function () {
+            $(this).addClass("select-box")
+        })
+        $(".blog-main").on('mouseleave', '.box', function () {
+            $(this).removeClass("select-box")
+        })
+    </script>
 {% endblock %}

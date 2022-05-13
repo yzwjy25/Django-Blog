@@ -17,6 +17,9 @@
             bottom: 0;
             width: 100%;
         }
+        .select-box {
+            background-color: #00ffff;
+        }
     </style>
 </head>
 <body>
@@ -46,8 +49,16 @@
         {#        右侧菜单#}
         <div class="col-sm-2 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
-                <h4>搜索</h4>
-                <input type="email" class="form-control" id="exampleInputEmail3" placeholder="搜索内容">
+                <form method="post" action="/">
+                    <h4>搜索</h4>
+                    {% csrf_token %}
+                    <select class="form-control" name="type">
+                        <option value="title">标题搜索</option>
+                        <option value="content">内容搜索</option>
+                    </select>
+                    <input type="text" class="form-control" id="search" placeholder="搜索内容" name="value" value="{{ search_value }}">
+                    <input type="submit" value="搜索" class="btn btn-default form-control">
+                </form>
             </div>
             <div class="sidebar-module">
                 <div class="sidebar-module">
