@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load myurl %}
 {% block title %}
     富贵平安的主页
 {% endblock %}
@@ -22,7 +23,22 @@
                 <hr>
             </div>
         {% endfor %}
+        <nav aria-label="Page navigation" style="margin: 0 auto;">
+            <ul class="pagination">
+                <li>
+                    <a href="{% withparam_url request "index" "page" 1 %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% withparam_url request "index" "page" 2 %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
+
 {% endblock %}
 {% block js %}
     <script>

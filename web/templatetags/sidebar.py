@@ -1,4 +1,4 @@
-
+from django_redis import get_redis_connection
 from django.db.models import Count
 from django.db.models.functions import TruncMonth, TruncYear
 from django.template import Library
@@ -16,7 +16,7 @@ def categories():
 
     html = "<li><a href=\"\\\">全部</a></li>"
     for item in cates:
-        html += "<li><a href=\"?category={}\">{}({})</a></li>".format(item['id'], item['title'], item['num'])
+        html += "<li><a href=\"\\?category={}\">{}({})</a></li>".format(item['id'], item['title'], item['num'])
     # print(html)
     return mark_safe(html)
 
@@ -31,7 +31,7 @@ def yearmonth():
     html = ""
 
     for item in blogs:
-        html += "<li><a href=\"?year={}&month={}\">{}({})</a></li>".format(item['month'].year, item['month'].month,item['month'].strftime('%Y-%m'), item['num'])
+        html += "<li><a href=\"\\?year={}&month={}\">{}({})</a></li>".format(item['month'].year, item['month'].month,item['month'].strftime('%Y-%m'), item['num'])
     # print(html)
     return mark_safe(html)
 
@@ -39,10 +39,14 @@ def yearmonth():
 def read_rank():
     # 分组查询
     # blogs = Blog.objects.filter().values('id', 'title')
-    blogs = Blog.objects.filter().order_by('-read_count').values('id', 'title', 'read_count')
+    # blogs = Blog.objects.filter().order_by('-read_count').values('id', 'title', 'read_count')
     # print(blogs)
     html = ""
-
+    conn = get_redis_connection("default")
+    blogs_id = [int(item.decode().split(":")[-1]) for item in conn.zrange('read_count', 0, -1, desc=True)[:5]]
+    # print(blogs)
+    blogs = Blog.objects.filter(id__in=blogs_id).values('id', 'title', 'read_count')
+    blogs = sorted(blogs, key=lambda x:x['read_count'], reverse=True)
     for item in blogs:
         html += "<li><a href=\"\\article\\{}\">{}({})</a></li>".format(item['id'], item['title'][:10] + "..." if len(item['title']) > 10 else item['title'], item['read_count'])
     # print(html)
