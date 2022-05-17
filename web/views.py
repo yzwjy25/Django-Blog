@@ -6,7 +6,6 @@ from .models import Blog
 from django_redis import get_redis_connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
-from .service.pager import MyPaginator
 
 
 def index(request):
@@ -16,15 +15,14 @@ def index(request):
     category_id = request.GET.get('category')
     year = request.GET.get('year')
     month = request.GET.get('month')
-    current_page = request.GET.get("page")
+
     if category_id:
         query_con['category_id'] = category_id
     if year and month:
         query_con['publish_time__year'] = year
         query_con['publish_time__month'] = month
     #搜索
-    if not current_page:
-        current_page = 1
+
     value = ''
     if request.method == 'POST':
         type_ = request.POST.get('type')
@@ -35,26 +33,44 @@ def index(request):
         else:
             query_con['content__contains'] = value
 
+
     article = Blog.objects.filter(**query_con).order_by('-publish_time').values("id", "title","content_sample", "publish_time")
-    paginator = MyPaginator(article, current_page, 2)
-    print(paginator.num_pages)
+    #分页处理
+    current_page = request.GET.get("page")
+    paginator = Paginator(article, 5)
     try:
         pages = paginator.page(current_page)
+        current_page = int(current_page)
     except PageNotAnInteger:
-        pages = paginator.page(1)
+        current_page = 1
+        pages = paginator.page(current_page)
     except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-    print(pages)
-    # print(pages.next_page_number())
+        current_page = paginator.num_pages
+        pages = paginator.page(current_page)
+
+    #获取下一个和上一个页码
+    if pages.has_next():
+        next_page = pages.next_page_number()
+    else:
+        next_page = paginator.num_pages
+    if pages.has_previous():
+        pre_page = pages.previous_page_number()
+    else:
+        pre_page = 1
 
     return render(
         request,
         "web/index.html",
         {
             "articles":pages,
-            'search_value':value
+            'search_value':value,
+            "next_page":next_page,
+            "pre_page":pre_page,
+            "page_range":paginator.page_range,
+            "current_page":current_page
         }
     )
+
 
 def blogcontent(request, blog_id):
     blog = Blog.objects.filter(pk = blog_id).first()
@@ -66,9 +82,10 @@ def blogcontent(request, blog_id):
 
     if blog.id not in readed_list:
         read_count = conn.incr("article:{}".format(blog.id))
-        print(read_count)
-        conn.zadd('read_count', {"article:{}".format(blog.id): 1})
+        # print(read_count)
+        conn.zadd('read_count', {"{}:{}".format(blog.id, blog.title): 1})
         # blog.increase_views()
         readed_list.append(blog.id)
-        response.set_cookie('readed', readed_list)
+        response.set_cookie('readed', readed_list, )
+
     return response

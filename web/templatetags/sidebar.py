@@ -43,10 +43,18 @@ def read_rank():
     # print(blogs)
     html = ""
     conn = get_redis_connection("default")
-    blogs_id = [int(item.decode().split(":")[-1]) for item in conn.zrange('read_count', 0, -1, desc=True)[:5]]
-    # print(blogs)
-    blogs = Blog.objects.filter(id__in=blogs_id).values('id', 'title', 'read_count')
-    blogs = sorted(blogs, key=lambda x:x['read_count'], reverse=True)
+    blogs = []
+    for item in conn.zrange('read_count', 0, 5, desc=True):
+        item = item.decode()
+        blog_id, blog_title = item.split(":")
+        read_count = int(conn.zscore('read_count', item))
+        blogs.append(
+            {
+                "id":blog_id,
+                "title":blog_title,
+                "read_count":read_count
+            }
+        )
     for item in blogs:
         html += "<li><a href=\"\\article\\{}\">{}({})</a></li>".format(item['id'], item['title'][:10] + "..." if len(item['title']) > 10 else item['title'], item['read_count'])
     # print(html)

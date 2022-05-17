@@ -15,23 +15,27 @@
         {% for article in articles %}
             <div class="box" style="padding:0 10px;">
                 <div class="blog-post">
-                    <h2 class="blog-post-title"><a href="{% url "blogcontent" article.id %}">{{ article.title }}</a>
-                    </h2>
+                    <h2 class="blog-post-title"><a href="{% url "blogcontent" article.id %}">{{ article.title }}</a></h2>
                     <p style="font-size: 14px;">{{ article.content_sample }}</p>
                     <p class="blog-post-meta" style="float: right;font-size: 14px;">{{ article.publish_time }}</p>
                 </div>
                 <hr>
             </div>
         {% endfor %}
-        <nav aria-label="Page navigation" style="margin: 0 auto;">
-            <ul class="pagination">
+        <nav aria-label="Page navigation" style="float: right;">
+            <ul class="pagination pagination-sm">
                 <li>
-                    <a href="{% withparam_url request "index" "page" 1 %}" aria-label="Previous">
+                    <a href="{% withparam_url request "index" "page" pre_page %}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
+                {% for page in page_range %}
+                    <li {% if page == current_page %}class="active"{% endif %}><a
+                            href="{% withparam_url request "index" "page" page %}">{{ page }}</a></li>
+                {% endfor %}
+
                 <li>
-                    <a href="{% withparam_url request "index" "page" 2 %}" aria-label="Next">
+                    <a href="{% withparam_url request "index" "page" next_page %}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
