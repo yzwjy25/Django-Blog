@@ -136,6 +136,11 @@ STATICFILES_DIRS = [
 ]
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+#celery时区
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERY_ENABLE_UTC = False
+
+
 SIMPLEUI_CONFIG = {
     'system_keep': False,
     'menu_display': ['博客管理', '分类管理', '权限认证'],  # 开启排序和过滤功能, 不填此字段为默认排序和全部显示, 空列表[] 为全部不显示.

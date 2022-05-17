@@ -13,8 +13,8 @@ class Blog(models.Model):
 
     read_count = models.PositiveIntegerField(verbose_name='阅读数',default=0)
 
-    def increase_views(self):
-        self.read_count += 1
+    def increase_views(self, count):
+        self.read_count += count
         self.save(update_fields=['read_count'])
 
     publish_time = models.DateTimeField(verbose_name="发布时间")
@@ -28,3 +28,11 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    name = models.CharField(max_length=20, verbose_name="发布者昵称")
+    publish_time = models.DateTimeField(verbose_name="发布时间")
+    content = models.TextField(verbose_name="内容")
+
+    blog = models.ForeignKey(to='Blog', verbose_name='所属博客', on_delete=models.CASCADE, related_name='comment')

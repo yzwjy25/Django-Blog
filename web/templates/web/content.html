@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block blog-title %}
-    <div class="blog-header">
+    <div class="blog-header" style="background-color: #fff;z-index: 1;">
         <h1 class="blog-title">{{ blog.title }}</h1>
         <p class="lead blog-description">{{ blog.category }} | {{ blog.publish_time }}</p>
     </div>
@@ -25,10 +25,12 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div id="sidebar" class="">
 
-        <div id="custom-toc-container" class=""></div>
+    <div id="" class="">
+        <div id="sidebar" class="">
+            <div id="custom-toc-container" class=""></div>
 
+        </div>
     </div>
 {% endblock %}
 {% block content %}
@@ -45,49 +47,40 @@
         <div id="comments">
             <h3>评论</h3>
             <hr>
+
             <div class="panel panel-default">
-                {#                <div class="panel-heading"><h3 class="panel-title">1#</h3></div>#}
-                <div class="panel-body" style="font-size: 15px;">
-                    好文章要顶！
-                </div>
-                <div class="panel-footer" style="font-size: 8px;">帆帆-2022-05-17</div>
+                {% for foo in blog.comment.values %}
+                    <div class="panel-heading"><h3 class="panel-title">{{ forloop.counter }}#</h3></div>
+                    <div class="panel-body" style="font-size: 15px;">
+                        {{ foo.content }}
+                    </div>
+                    <div class="panel-footer" style="font-size: 8px;margin-bottom: 5px;">{{ foo.name }} <span
+                            style="float: right">{{ foo.publish_time }}</span></div>
+                {% endfor %}
             </div>
-            <div class="panel panel-default">
-                {#                <div class="panel-heading"><h3 class="panel-title">1#</h3></div>#}
-                <div class="panel-body" style="font-size: 15px;">
-                    好文章要顶！
-                </div>
-                <div class="panel-footer" style="font-size: 8px;">帆帆-2022-05-17</div>
-            </div>
+
         </div>
 
         <div id="comment_form_container">
             <h3>发表评论</h3>
             <div>
-                <form class="form-inline">
+                <form method="post">
+                    {% csrf_token %}
                     <div class="form-group">
                         <label for="name">昵称</label>
-                        <input type="text" class="form-control" id="name" placeholder="昵称">
+                        <input type="text" class="form-control" id="name" placeholder="昵称" name="name">
                     </div>
-                    <br>
-                        <textarea class="form-control" rows="3" cols="90"></textarea>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" name="content"></textarea>
+                    </div>
+
                     <button type="submit" class="btn btn-default">提交</button>
                 </form>
             </div>
 
 
         </div>
-        {#        <form class="form-inline">#}
-        {#            <div class="form-group">#}
-        {#                <label for="exampleInputName2">Name</label>#}
-        {#                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">#}
-        {#            </div>#}
-        {#            <div class="form-group">#}
-        {#                <label for="exampleInputEmail2">Email</label>#}
-        {#                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">#}
-        {#            </div>#}
-        {#            <button type="submit" class="btn btn-default">Send invitation</button>#}
-        {#        </form>#}
+
     </div>
 
 {% endblock %}
@@ -110,6 +103,8 @@
             flowChart: true,  // 默认不解析
             sequenceDiagram: true,  // 默认不解析
         });
+        $("#hidden-sidebar").click(function () {
 
+        })
     </script>
 {% endblock %}

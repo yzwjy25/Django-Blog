@@ -1,8 +1,8 @@
 import datetime
 import json
-
+from .forms.CommentModelForms import CommentModelForm
 from django.shortcuts import render, HttpResponse
-from .models import Blog
+from .models import Blog, Comment
 from django_redis import get_redis_connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
@@ -75,13 +75,22 @@ def index(request):
 def blogcontent(request, blog_id):
     blog = Blog.objects.filter(pk = blog_id).first()
     readed_list = json.loads(request.COOKIES.get('readed', '[]'))
-    # print(readed_list, type(readed_list))
+    if request.method == 'POST':
+        print(request.POST)
+        form = CommentModelForm(data=request.POST)
+        # print(form)
+        if form.is_valid():
+            form.instance.blog_id = blog_id
+            form.instance.publish_time = datetime.datetime.now()
+            form.save()
+
+
 
     conn = get_redis_connection("default")
     response = render(request, "web/content.html", {"blog": blog})
-
+    # print(blog.comment)
     if blog.id not in readed_list:
-        read_count = conn.incr("article:{}".format(blog.id))
+        # read_count = conn.incr("article:{}".format(blog.id))
         # print(read_count)
         conn.zadd('read_count', {"{}:{}".format(blog.id, blog.title): 1})
         # blog.increase_views()
