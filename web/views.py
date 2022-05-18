@@ -90,9 +90,11 @@ def blogcontent(request, blog_id):
     response = render(request, "web/content.html", {"blog": blog})
     # print(blog.comment)
     if blog.id not in readed_list:
+        # print(conn.zscore('read_count', "{}:{}".format(blog.id, blog.title)))
         # read_count = conn.incr("article:{}".format(blog.id))
         # print(read_count)
-        conn.zadd('read_count', {"{}:{}".format(blog.id, blog.title): 1})
+        conn.zincrby('read_count', 1.0, "{}:{}".format(blog.id, blog.title))
+        # conn.zadd('read_count', {"{}:{}".format(blog.id, blog.title): 1})
         # blog.increase_views()
         readed_list.append(blog.id)
         response.set_cookie('readed', readed_list, )
