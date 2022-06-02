@@ -1,7 +1,12 @@
 import datetime
 import json
-from .forms.CommentModelForms import CommentModelForm
-from django.shortcuts import render, HttpResponse
+from django.contrib.auth.models import User, AnonymousUser
+from django.contrib import auth
+from django.core import mail
+from django.db.models import Q
+
+from django.shortcuts import render, HttpResponse, redirect
+from .tasks import send_email_celery
 from .models import Blog, Comment
 from django_redis import get_redis_connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -77,13 +82,11 @@ def blogcontent(request, blog_id):
     readed_list = json.loads(request.COOKIES.get('readed', '[]'))
     if request.method == 'POST':
         print(request.POST)
-        form = CommentModelForm(data=request.POST)
-        # print(form)
-        if form.is_valid():
-            form.instance.blog_id = blog_id
-            form.instance.publish_time = datetime.datetime.now()
-            form.save()
-
+        content = request.POST.get('content')
+        # if request.user
+        if isinstance(request.user, AnonymousUser):
+            return HttpResponse("请先登录！")
+        Comment.objects.create(name=request.user.username, publish_time=datetime.datetime.now(), content=content, blog_id=blog_id)
 
 
     conn = get_redis_connection("default")
@@ -100,3 +103,39 @@ def blogcontent(request, blog_id):
         response.set_cookie('readed', readed_list, )
 
     return response
+
+
+def login(request):
+    if request.method == "GET":
+        return render(request, 'web/login.html')
+    d = request.POST.dict()
+    d.pop('csrfmiddlewaretoken')
+    user = auth.authenticate(**d)
+    if user:
+        auth.login(request, user)
+        return redirect("index")
+    return render(request, 'web/login.html')
+
+def active(request, id_):
+    # r = send_email_celery.delay("1226856568@qq.com")
+    # print(r)
+    conn = get_redis_connection("default")
+    msg = json.loads(conn.get(id_).decode())
+    User.objects.create_user(**msg)
+    return redirect('login')
+
+def register(request):
+    if request.method == "GET":
+        return render(request, "web/register.html")
+    d = request.POST.dict()
+    if User.objects.filter(Q(username=d.get('username')) | Q(email=d.get('email'))).exists():
+        return HttpResponse('账号或者邮箱已存在，请重新输入')
+    send_email_celery.delay(**d)
+    conn = get_redis_connection("default")
+    conn.set(d.pop('csrfmiddlewaretoken'), json.dumps(d), 60)
+
+    return HttpResponse('验证码已发送至邮箱，请注意查收')
+
+def logout(request):
+    auth.logout(request)
+    return redirect("index")

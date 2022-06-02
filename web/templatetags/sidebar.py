@@ -59,3 +59,4 @@ def read_rank():
         html += "<li><a href=\"\\article\\{}\">{}({})</a></li>".format(item['id'], item['title'][:10] + "..." if len(item['title']) > 10 else item['title'], item['read_count'])
     # print(html)
     return mark_safe(html)
+
