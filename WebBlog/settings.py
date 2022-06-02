@@ -185,5 +185,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com' # 腾讯QQ邮箱 SMTP 服务器地址
 EMAIL_PORT = 25  # SMTP服务的端口号
 EMAIL_HOST_USER = '1226856568@qq.com'  # 发送邮件的QQ邮箱
-EMAIL_HOST_PASSWORD = 'jmcxbkaiksimijeb'  # 在QQ邮箱->设置->帐户->“POP3/IMAP......服务” 里得到的在第三方登录QQ邮箱授权码
+EMAIL_HOST_PASSWORD = ''  # 在QQ邮箱->设置->帐户->“POP3/IMAP......服务” 里得到的在第三方登录QQ邮箱授权码
 EMAIL_USE_TLS = True
