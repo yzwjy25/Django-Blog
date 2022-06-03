@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block extracss %}
+    <link rel="stylesheet" href="/static/css/message.css"/>
+{% endblock %}
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="container-inner">
+                <section class="msg-remark" style="margin-top: 15%;">
+                    <h1>信息</h1>
+                    <p>{{ message|safe }}</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

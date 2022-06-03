@@ -23,12 +23,12 @@ def update_count():
     Blog.objects.bulk_update(blogs, ['read_count'])
 
 @app.task
-def send_email_celery(**kwargs):
+def send_email_celery(csrftoken, email):
 
     mail.send_mail(
         subject='欢迎您注册',
-        message='请点击下面链接激活您的账户:{}/{}/'.format(settings.SERVER_NAME + "/active",kwargs.get('csrfmiddlewaretoken')),
-        from_email='1226856568@qq.com',
-        recipient_list=[kwargs.get('email')]
+        message='请点击下面链接激活您的账户:{}/{}/'.format(settings.SERVER_NAME + "/active",csrftoken),
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[email]
     )
 

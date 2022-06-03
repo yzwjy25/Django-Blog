@@ -23,7 +23,7 @@ class MyContent(forms.Textarea):
 class BlogModelForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['title', 'category','content_sample', 'content', 'publish_time']
+        fields = ['title', 'category','content_sample', 'content', 'publish_time', "img"]
 
         widgets = {
             'title': forms.TextInput(attrs={"class":"form-control"}),

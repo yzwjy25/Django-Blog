@@ -136,10 +136,9 @@ STATICFILES_DIRS = [
 ]
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-#celery时区
+# celery时区
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = False
-
 
 SIMPLEUI_CONFIG = {
     'system_keep': False,
@@ -154,18 +153,15 @@ SIMPLEUI_CONFIG = {
                 {
                     "name": "博客列表",
                     "url": "web/blog/"
-                }
-            ]
-        },
-        {
-            "name": "分类管理",
-            "icon": "fas fa-code",
-            "url": "web/category/",
-            "models": [
+                },
                 {
                     "name": "分类列表",
                     "url": "web/category/",
-                }
+                },
+                {
+                    "name": "评论列表",
+                    "url": "web/comment/",
+                },
             ]
         },
         {
@@ -180,9 +176,9 @@ SIMPLEUI_CONFIG = {
         },
     ]
 }
-SERVER_NAME = "http://127.0.0.1"
+SERVER_NAME = "http://127.0.0.1:8000"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.qq.com' # 腾讯QQ邮箱 SMTP 服务器地址
+EMAIL_HOST = 'smtp.qq.com'  # 腾讯QQ邮箱 SMTP 服务器地址
 EMAIL_PORT = 25  # SMTP服务的端口号
 EMAIL_HOST_USER = '1226856568@qq.com'  # 发送邮件的QQ邮箱
 EMAIL_HOST_PASSWORD = ''  # 在QQ邮箱->设置->帐户->“POP3/IMAP......服务” 里得到的在第三方登录QQ邮箱授权码

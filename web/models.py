@@ -13,11 +13,9 @@ class Blog(models.Model):
 
     read_count = models.PositiveIntegerField(verbose_name='阅读数',default=0)
 
-    def increase_views(self, count):
-        self.read_count += count
-        self.save(update_fields=['read_count'])
-
     publish_time = models.DateTimeField(verbose_name="发布时间")
+
+    img = models.FileField(upload_to="static/blog_img/", default="static/blog_img/img.png")
 
     def __str__(self):
         return self.title
@@ -36,3 +34,6 @@ class Comment(models.Model):
     content = models.TextField(verbose_name="内容")
 
     blog = models.ForeignKey(to='Blog', verbose_name='所属博客', on_delete=models.CASCADE, related_name='comment')
+
+    def __str__(self):
+        return f"{self.blog}:{self.name}:{self.content}"

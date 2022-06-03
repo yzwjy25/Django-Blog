@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from web.views import index, blogcontent, login, register, active, logout
+from web.views import index, detial, login, register, active, logout, article, message
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name="index"),
-    path('article/<int:blog_id>/', blogcontent, name="blogcontent"),
+    path('', index),
+    path('index/', index, name="index"),
+    path('article/', article, name="article"),
+    path('article/<int:blog_id>/', detial, name="detial"),
+    path('message/', message, name="message"),
     path('login/', login, name="login"),
     path('register/', register, name="register"),
     path('active/<str:id_>/', active, name="active"),
