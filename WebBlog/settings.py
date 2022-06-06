@@ -132,8 +132,10 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static'),
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # celery时区
@@ -162,6 +164,10 @@ SIMPLEUI_CONFIG = {
                     "name": "评论列表",
                     "url": "web/comment/",
                 },
+                {
+                    "name": "留言列表",
+                    "url": "web/message/",
+                },
             ]
         },
         {
@@ -171,7 +177,7 @@ SIMPLEUI_CONFIG = {
             'models': [{
                 'name': '用户',
                 'icon': 'fa fa-user',
-                'url': 'auth/user/'
+                'url': 'web/user/'
             }]
         },
     ]
@@ -183,3 +189,4 @@ EMAIL_PORT = 25  # SMTP服务的端口号
 EMAIL_HOST_USER = '1226856568@qq.com'  # 发送邮件的QQ邮箱
 EMAIL_HOST_PASSWORD = ''  # 在QQ邮箱->设置->帐户->“POP3/IMAP......服务” 里得到的在第三方登录QQ邮箱授权码
 EMAIL_USE_TLS = True
+AUTH_USER_MODEL = "web.User"

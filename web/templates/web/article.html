@@ -1,5 +1,8 @@
 
 {% extends "base.html" %}
+{% block title %}
+    博客
+{% endblock %}
 {% block extracss %}
      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 {% endblock %}
@@ -23,7 +26,7 @@
                                     <span class="year fs-18 ml10">{{ blog.publish_time.year }}</span>
                                 </div>
                                 <div class="content">
-                                    <a href="read.html" class="cover img-light">
+                                    <a href="{% url "detial" blog.id %}" class="cover img-light">
                                         <img src="/{{ blog.img }}" alt="">
                                     </a>
                                     {{ blog.content_sample }}

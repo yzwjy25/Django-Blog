@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -5,7 +6,7 @@ from django.db import models
 class Blog(models.Model):
     title = models.CharField(max_length=20, verbose_name="标题")
 
-    content_sample = models.CharField(max_length=50, verbose_name="内容简介", null=True)
+    content_sample = models.TextField( verbose_name="内容简介", null=True)
 
     content = models.TextField(verbose_name="内容")
 
@@ -15,7 +16,7 @@ class Blog(models.Model):
 
     publish_time = models.DateTimeField(verbose_name="发布时间")
 
-    img = models.FileField(upload_to="static/blog_img/", default="static/blog_img/img.png")
+    img = models.ImageField(upload_to="media/blog_img/", default="media/blog_img/img.png")
 
     def __str__(self):
         return self.title
@@ -29,11 +30,28 @@ class Category(models.Model):
 
 
 class Comment(models.Model):
-    name = models.CharField(max_length=20, verbose_name="发布者昵称")
+    # name = models.CharField(max_length=20, verbose_name="发布者昵称")
+    user = models.OneToOneField(to='User', on_delete=models.CASCADE, null=True)
     publish_time = models.DateTimeField(verbose_name="发布时间")
     content = models.TextField(verbose_name="内容")
 
     blog = models.ForeignKey(to='Blog', verbose_name='所属博客', on_delete=models.CASCADE, related_name='comment')
 
     def __str__(self):
-        return f"{self.blog}:{self.name}:{self.content}"
+        return f"{self.blog}:{self.user.username}:{self.content}"
+
+
+class User(AbstractUser):
+    avatar = models.ImageField(upload_to="media/avatar/", default="media/avatar/img.png",)
+
+class Message(models.Model):
+    user = models.ForeignKey(to='User', on_delete=models.CASCADE, null=True)
+
+    content = models.TextField(verbose_name="内容")
+
+    publish_time = models.DateTimeField(verbose_name="发布时间")
+    parent = models.ForeignKey(to='Message', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    reply_to = models.ForeignKey(to='Message', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.content

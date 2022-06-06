@@ -26,15 +26,16 @@ layui.use(['element', 'jquery', 'form', 'layedit', 'flow'], function () {
          var targetId = $(this).data('targetid')
              , targetName = $(this).data('targetname')
              , $container = $(this).parent('p').parent().siblings('.replycontainer');
+         console.log(targetId, targetName)
          if ($(this).text() == '回复') {
              $container.find('textarea').attr('placeholder', '回复【' + targetName + '】');
              $container.removeClass('layui-hide');
-             $container.find('input[name="targetUserId"]').val(targetId);
+             $container.find('input[name="targetMessageId"]').val(targetId);
              $(this).parents('.message-list li').find('.btn-reply').text('回复');
              $(this).text('收起');
          } else {
              $container.addClass('layui-hide');
-             $container.find('input[name="targetUserId"]').val(0);
+             $container.find('input[name="targetMessageId"]').val(0);
              $(this).text('回复');
          }
      });

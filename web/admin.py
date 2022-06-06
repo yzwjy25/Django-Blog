@@ -4,7 +4,7 @@ import markdown
 from django.contrib import admin
 from django.shortcuts import render, redirect
 
-from .models import Blog, Category, Comment
+from .models import Blog, Category, Comment, Message, User
 from .forms.BlogModelForms import BlogModelForm
 
 # from django.forms import TextInput
@@ -22,5 +22,6 @@ class BlogModelAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Blog, BlogModelAdmin)
 admin.site.register(Comment)
-
+admin.site.register(Message)
+admin.site.register(User)
 # admin

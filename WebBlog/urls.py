@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from web.views import index, detial, login, register, active, logout, article, message
+from web.views import index, detial, login, register, active, logout, article, message, forget, userinfo
 
 
 
@@ -30,5 +30,7 @@ urlpatterns = [
     path('register/', register, name="register"),
     path('active/<str:id_>/', active, name="active"),
     path('logout/', logout, name="logout"),
-    # path('admin/', include("admin.urls", namespace='admin'))
+    path('forget/', forget, name='forget'),
+    path('forget/<str:token>/', forget, name='forget_token'),
+    path('userinfo/', userinfo, name='userinfo'),
 ]
