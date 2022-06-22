@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'web.rate_middleware.rateMiddleware.RateMiddleware'
 ]
 
 ROOT_URLCONF = 'WebBlog.urls'
