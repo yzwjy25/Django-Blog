@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block extracss %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+{% block title %}
+    忘记密码
+{% endblock %}
+
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="container-inner">
+                <div class="modal-dialog" style="margin-top: 10%;">
+                    <form action="" method="post" class="modal-content">
+                        {% csrf_token %}
+                        <div class="modal-header">
+
+                            <h4 class="modal-title text-center" id="myModalLabel">忘记密码</h4>
+                        </div>
+                        <div class="modal-body" id="model-body">
+                            <div class="form-group">
+                                <label for="username">{{ text }}：</label>
+                                <input type="text" name="text" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group">
+                                <button class="btn btn-primary form-control">提交</button>
+                            </div>
+                            <div class="form-group">
+                                <a href="{% url "login" %}" class="btn btn-default form-control">登录</a>
+                            </div>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

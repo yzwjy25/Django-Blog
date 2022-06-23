@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+    注册
+{% endblock %}
+{% block extracss %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+            <div class="container-inner">
+                <div class="modal-dialog" style="margin-top: 10%;">
+                    <form action="" method="post" class="modal-content">
+                        {% csrf_token %}
+                        <div class="modal-header">
+
+                            <h4 class="modal-title text-center" id="myModalLabel">注册</h4>
+                        </div>
+                        <div class="modal-body" id="model-body">
+                            <div class="form-group">
+                                <label for="username">用户名：</label>
+                                {{ form.username }}
+                                {{ form.username.errors.0 }}
+                            </div>
+                            <div class="form-group">
+                                <label for="username">密码：</label>
+                                {{ form.password }}
+                                {{ form.password.errors.0 }}
+                            </div>
+                            <div class="form-group">
+                                <label for="username">重复密码：</label>
+                                {{ form.repassword }}
+                                {{ form.repassword.errors.0 }}
+                            </div>
+                            <div class="form-group">
+                                <label for="username">邮箱(用于验证)：</label>
+                                {{ form.email }}
+                                {{ form.email.errors.0 }}
+                                {#                    <button type="button" class="btn btn-success">发送验证码</button>#}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="form-group">
+                                <button class="btn btn-primary form-control">注册</button>
+                            </div>
+                            <div class="form-group">
+                                <a href="{% url "login" %}" class="btn btn-default form-control">登录</a>
+                            </div>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
